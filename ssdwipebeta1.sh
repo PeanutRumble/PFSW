@@ -1,6 +1,6 @@
-export TERM=linux
-
 #!/usr/bin/env bash
+
+export TERM=linux
 
 set -euo pipefail
 
@@ -65,4 +65,5 @@ whiptail --title "Erase Results" \
   20 70
 
 exit $EXIT_CODE
+
 
