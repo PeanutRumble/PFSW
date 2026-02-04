@@ -51,7 +51,10 @@ whiptail --yesno \
 RESULTS=()
 EXIT_CODE=0
 
-for dev in $CHOICES; do
+# After the whiptail checklist, process the choices properly
+eval "CHOICES_ARRAY=($CHOICES)"
+
+for dev in "${CHOICES_ARRAY[@]}"; do
   if blkdiscard -f "$dev"; then
     RESULTS+=("$dev : SUCCESS")
   else
