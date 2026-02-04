@@ -1,5 +1,7 @@
 export TERM=linux
 
+#!/usr/bin/env bash
+
 set -euo pipefail
 
 require_root() {
@@ -63,3 +65,4 @@ whiptail --title "Erase Results" \
   20 70
 
 exit $EXIT_CODE
+
