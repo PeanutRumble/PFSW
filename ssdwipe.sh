@@ -51,7 +51,7 @@ whiptail --yesno \
 RESULTS=()
 EXIT_CODE=0
 
-# After the whiptail checklist, process the choices properly
+
 eval "CHOICES_ARRAY=($CHOICES)"
 
 for dev in "${CHOICES_ARRAY[@]}"; do
