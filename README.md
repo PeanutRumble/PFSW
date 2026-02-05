@@ -7,7 +7,7 @@ in the repo directory run "sudo ./start.sh"
 
 ### Installation steps:
 1. git clone https://github.com/peanutrumble/PFSW
-2. cd ssd-wipe
+2. cd PFSW
 3. chmod +x *.sh
 
 ### Dependencies:  
@@ -21,6 +21,7 @@ in the repo directory run "sudo ./start.sh"
 TODOs 
 1. make this a binary for easy installation and usage
 2. add a usb wiping feature
+
 
 
 
