@@ -7,7 +7,7 @@ require_root() {
 }
 
 whiptail --title "NVMe Wipe Station" \
-  --msgbox "Initializing disk subsystem...\n\nPlease wait." \
+  --msgbox "NVME script starts?" \
   10 50
 
 get_nvme_drives() {
@@ -33,7 +33,6 @@ check_format_support() {
 build_whiptail_list() {
   for d in $(get_nvme_drives); do
     size=$(lsblk -ndo SIZE /dev/"$d")
-    # Show namespace info (nvme0n1, nvme1n1, etc)
     echo "/dev/$d" "$size" OFF
   done
 }
