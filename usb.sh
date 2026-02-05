@@ -6,7 +6,7 @@ require_root() {
   [[ $EUID -eq 0 ]] || { echo "Must be run as root"; exit 1; }
 }
 
-whiptail --title "USB Wipe Station" \
+whiptail --title "USB Wipe" \
   --msgbox "Initializing USB subsystem...\n\nPlease wait." \
   10 50
 
