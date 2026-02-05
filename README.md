@@ -1,4 +1,5 @@
-Peanut's Flash Storage Wiper
+##Peanut's Flash Storage Wiper
+
 PFSW is a TUI based flash storage wiper for linux making use of hdparm, blkdiscard, and nvme-cli and simplifies the usage of the tools in a large scale wiping operation allowing multiple drives to be queued.
 
 Usage:
@@ -19,4 +20,5 @@ Dependencies:  (Most of everything is bundled in most linux distros)
 TODOs 
 1. make this a binary for easy installation and usage
 2. add a usb wiping feature
+
 
