@@ -27,17 +27,6 @@ EOF
   sleep 2
 }
 
-# ╔══════════════════════════════════════════════════════════════════════════╗
-# ║ PLACEHOLDER FOR FUTURE SCRIPT FUNCTION                                   ║
-# ║                                                                           ║
-# ║ Add your custom script function here. Example:                           ║
-# ║                                                                           ║
-# ║   run_custom_script() {                                                   ║
-# ║     /path/to/your/script.sh                                               ║
-# ║   }                                                                        ║
-# ║                                                                           ║
-# ║ Then call it from the menu by replacing the placeholder in case 4 below  ║
-# ╚══════════════════════════════════════════════════════════════════════════╝
 
 main_menu() {
   while true; do
@@ -68,7 +57,7 @@ main_menu() {
         ;;
       4)
         #usb stuff
-        usb.sh
+        usbfor.sh
         ;;
       5)
         exit 0
