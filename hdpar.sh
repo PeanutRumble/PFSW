@@ -7,7 +7,7 @@ require_root() {
 }
 
 whiptail --title "SSD Wipe Station (hdparm)" \
-  --msgbox "Initializing disk subsystem...\n\nPlease wait." \
+  --msgbox "hdparm script starts?." \
   10 50
 
 get_ssds() {
@@ -29,7 +29,6 @@ check_frozen() {
 build_whiptail_list() {
   for d in $(get_ssds); do
     size=$(lsblk -ndo SIZE /dev/"$d")
-    # Only include drives that support security erase and aren't NVMe
     if [[ ! "$d" =~ ^nvme ]] && check_security_support "/dev/$d"; then
       echo "/dev/$d" "$size" OFF
     fi
