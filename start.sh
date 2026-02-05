@@ -37,29 +37,21 @@ main_menu() {
       "1" "TRIM/Discard Erase (blkdiscard - Fastest and most compatible)" \
       "2" "ATA Secure Erase (hdparm - SATA drives supporting Secure Erase)" \
       "3" "NVMe Format (nvme-cli - NVMe drives)" \
-      "4" "USB Erase (Will slightly damage lifespan)" \
-      "5" "Exit" \
+      "4" "Exit" \
       3>&1 1>&2 2>&3
     )
     
     case $CHOICE in
       1)
-        # Call blkdiscard script
         sudo ./blkdis.sh
         ;;
       2)
-        # Call hdparm script
         sudo ./hdpar.sh
         ;;
       3)
-        # Call nvme script
         sudo ./nvme.sh
         ;;
       4)
-        #usb stuff
-        sudo ./usbfor.sh
-        ;;
-      5)
         exit 0
         ;;
       *)
@@ -69,7 +61,6 @@ main_menu() {
   done
 }
 
-# Main execution
 require_root
 show_ascii_art
 main_menu
