@@ -42,13 +42,13 @@ EOF
 main_menu() {
   while true; do
     CHOICE=$(whiptail \
-      --title "SSD Wipe Station - Main Menu" \
+      --title "Peanut's Flash Storage Wipe - Select" \
       --menu "Choose an option:" \
       20 70 10 \
-      "1" "TRIM/Discard Erase (blkdiscard - fastest)" \
-      "2" "ATA Secure Erase (hdparm - SATA drives)" \
-      "3" "NVMe Format (nvme - NVMe drives)" \
-      "4" "Custom Script (ADD YOUR SCRIPT HERE)" \
+      "1" "TRIM/Discard Erase (blkdiscard - Fastest and most compatible)" \
+      "2" "ATA Secure Erase (hdparm - SATA drives supporting Secure Erase)" \
+      "3" "NVMe Format (nvme-cli - NVMe drives)" \
+      "4" "USB Erase (Will slightly damage lifespan)" \
       "5" "Exit" \
       3>&1 1>&2 2>&3
     )
@@ -56,27 +56,19 @@ main_menu() {
     case $CHOICE in
       1)
         # Call blkdiscard script
-        ssd-wipe-blkdiscard
+        blkdis.sh
         ;;
       2)
         # Call hdparm script
-        ssd-wipe-hdparm
+        hdpar.sh
         ;;
       3)
         # Call nvme script
-        ssd-wipe-nvme
+        nvme.sh
         ;;
       4)
-        # ╔════════════════════════════════════════════════════════════╗
-        # ║ PLACEHOLDER: Replace this with your custom script call    ║
-        # ║                                                             ║
-        # ║ Example:                                                    ║
-        # ║   run_custom_script                                         ║
-        # ║   /path/to/your-script.sh                                   ║
-        # ║   bash /home/user/my-tool.sh                                ║
-        # ╚════════════════════════════════════════════════════════════╝
-        
-        whiptail --msgbox "Custom script placeholder\n\nAdd your script here!" 10 50
+        #usb stuff
+        usb.sh
         ;;
       5)
         exit 0
