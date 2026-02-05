@@ -10,7 +10,8 @@ in the repo directory run "sudo ./start.sh"
 2. cd ssd-wipe
 3. chmod +x *.sh
 
-### Dependencies:  (Most of everything is bundled in most linux distros)
+### Dependencies:  
+###### (Most of everything is bundled in most linux distros)
 1. whiptail
 2. Git
 3. hdparm
@@ -20,6 +21,7 @@ in the repo directory run "sudo ./start.sh"
 TODOs 
 1. make this a binary for easy installation and usage
 2. add a usb wiping feature
+
 
 
 
