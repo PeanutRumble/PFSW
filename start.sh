@@ -45,19 +45,19 @@ main_menu() {
     case $CHOICE in
       1)
         # Call blkdiscard script
-        blkdis.sh
+        sudo ./blkdis.sh
         ;;
       2)
         # Call hdparm script
-        hdpar.sh
+        sudo ./hdpar.sh
         ;;
       3)
         # Call nvme script
-        nvme.sh
+        sudo ./nvme.sh
         ;;
       4)
         #usb stuff
-        usbfor.sh
+        sudo ./usbfor.sh
         ;;
       5)
         exit 0
