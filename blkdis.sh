@@ -9,7 +9,7 @@ require_root() {
 }
 
 whiptail --title "SSD Wipe Station" \
-  --msgbox "Initializing disk subsystem...\n\nPlease wait." \
+  --msgbox "blkdiscard script starts?" \
   10 50
 
 get_ssds() {
