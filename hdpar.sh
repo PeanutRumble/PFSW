@@ -74,10 +74,22 @@ for dev in "${CHOICES_ARRAY[@]}"; do
   
  
   if check_frozen "$dev"; then
-    RESULTS+=("$dev : FAILED - Drive is FROZEN")
-    RESULTS+=("  Suspend/resume the system or use a different method")
-    EXIT_CODE=1
-    continue
+    whiptail --title "Drive Frozen" \
+      --msgbox "$dev is frozen.\n\nTrying to sleep cycle\n\nThis may take a few seconds." \
+      12 60
+    
+    hdparm -Y "$dev" >/dev/null 2>&1
+    sleep 2
+    hdparm -C "$dev" >/dev/null 2>&1
+    sleep 1
+    
+    if check_frozen "$dev"; then
+      RESULTS+=("$dev : FAILED - Still frozen after unfreeze attempt")
+      EXIT_CODE=1
+      continue
+    else
+      RESULTS+=("$dev : Unfrozen successfully, proceeding with erase...")
+    fi
   fi
   
  
