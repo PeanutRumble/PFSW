@@ -24,6 +24,27 @@ build_whiptail_list() {
   done
 }
 
+verify_wipe() {
+  local dev="$1"
+  local drive_bytes
+  drive_bytes=$(blockdev --getsize64 "$dev" 2>/dev/null) || return 2
+
+  local offsets=()
+  for pct in 0 25 50 75 99; do
+    offsets+=( $(( drive_bytes * pct / 100 )) )
+  done
+
+  for offset in "${offsets[@]}"; do
+    local sample
+    sample=$(dd if="$dev" bs=4096 count=1 skip=$(( offset / 4096 )) \
+             iflag=direct status=none 2>/dev/null) || return 2
+    if echo "$sample" | tr -d '\0' | grep -qP '.'; then
+      return 1
+    fi
+  done
+  return 0
+}
+
 require_root
 
 for i in {1..10}; do
@@ -51,14 +72,23 @@ whiptail --yesno \
 RESULTS=()
 EXIT_CODE=0
 
-
 eval "CHOICES_ARRAY=($CHOICES)"
 
 for dev in "${CHOICES_ARRAY[@]}"; do
   if blkdiscard -f "$dev"; then
-    RESULTS+=("$dev : SUCCESS")
+    verify_wipe "$dev"
+    VERIFY=$?
+    if [[ $VERIFY -eq 0 ]]; then
+      RESULTS+=("$dev : SUCCESS (verified zeroes)")
+    elif [[ $VERIFY -eq 1 ]]; then
+      RESULTS+=("$dev : WARNING - blkdiscard reported success but non-zero data found. Drive may have ignored the command.")
+      EXIT_CODE=1
+    else
+      RESULTS+=("$dev : SUCCESS (verification read failed - treat as unconfirmed)")
+      EXIT_CODE=1
+    fi
   else
-    RESULTS+=("$dev : FAILURE")
+    RESULTS+=("$dev : FAILURE - blkdiscard returned an error")
     EXIT_CODE=1
   fi
 done
@@ -68,5 +98,3 @@ whiptail --title "Erase Results" \
   20 70
 
 exit $EXIT_CODE
-
-
