@@ -24,26 +24,20 @@ build_whiptail_list() {
   done
 }
 
-# Samples 5 offsets across the drive and checks if they read as zeroes.
-# Returns 0 if all zeroes (likely wiped), 1 if non-zero data found, 2 if read failed.
-# IMPORTANT: A drive that fakes zeroes on read will pass this check falsely.
 verify_wipe() {
   local dev="$1"
   local drive_bytes
   drive_bytes=$(blockdev --getsize64 "$dev" 2>/dev/null) || return 2
 
-  # Sample at 0%, 25%, 50%, 75%, and 99% of drive
   local offsets=()
   for pct in 0 25 50 75 99; do
     offsets+=( $(( drive_bytes * pct / 100 )) )
   done
 
   for offset in "${offsets[@]}"; do
-    # Read 4096 bytes at offset, check if all zero
     local sample
     sample=$(dd if="$dev" bs=4096 count=1 skip=$(( offset / 4096 )) \
              iflag=direct status=none 2>/dev/null) || return 2
-    # If any byte is non-zero, wipe likely didn't take
     if echo "$sample" | tr -d '\0' | grep -qP '.'; then
       return 1
     fi
@@ -82,17 +76,14 @@ eval "CHOICES_ARRAY=($CHOICES)"
 
 for dev in "${CHOICES_ARRAY[@]}"; do
   if blkdiscard -f "$dev"; then
-    # Wipe command succeeded — now spot-check
     verify_wipe "$dev"
     VERIFY=$?
     if [[ $VERIFY -eq 0 ]]; then
       RESULTS+=("$dev : SUCCESS (verified zeroes)")
     elif [[ $VERIFY -eq 1 ]]; then
-      # Non-zero data found after wipe — drive likely ignored the command
       RESULTS+=("$dev : WARNING - blkdiscard reported success but non-zero data found. Drive may have ignored the command.")
       EXIT_CODE=1
     else
-      # Couldn't read back — still report wipe success but flag verify failure
       RESULTS+=("$dev : SUCCESS (verification read failed - treat as unconfirmed)")
       EXIT_CODE=1
     fi
