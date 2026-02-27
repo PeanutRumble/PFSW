@@ -1,16 +1,32 @@
 #!/usr/bin/env bash
-
 export TERM=linux
-
 set -euo pipefail
 
 require_root() {
   [[ $EUID -eq 0 ]] || { echo "Must be run as root"; exit 1; }
 }
 
-whiptail --title "SSD Wipe Station" \
-  --msgbox "blkdiscard script starts?" \
-  10 50
+show_ascii_art() {
+  clear
+  cat << 'EOF'
+################################################################################
+#                                                                              #
+#                                                                              #
+#                           ____________ _____ __   __                         #
+#                           | ___ \  ___/  ___|| |  | |                        #
+#                           | |_/ / |_  \ `--. | |  | |                        #
+#                           |  __/|  _|  `--. \| |/\| |                        #
+#                           | |   | |   /\__/ /\  /\  /                        #
+#                           \_|   \_|   \____/  \/  \/                         #
+#                                                                              #
+#                                                                              #
+################################################################################
+
+
+EOF
+  sleep 2
+}
+
 
 get_ssds() {
   lsblk -ndo NAME,ROTA,TYPE,MOUNTPOINT |
